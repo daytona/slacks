@@ -9,7 +9,7 @@ echo "Please enter Slack token: \c" | indent
 read TOKEN
 if [ -n "$TOKEN" ]; then
   cp bin/env.txt .env
-  echo "export SLACKS_TOKEN=$TOKEN" >> .env
+  echo "export SLACK_TOKEN=$TOKEN" >> .env
   echo "done." | indent
 else
   echo "Can't set environment variables withput a token. Continuing." | indent

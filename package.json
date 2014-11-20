@@ -4,7 +4,8 @@
   "description": "Proxies slack integration through web sockets",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --harmony index.js"
   },
   "repository": {
     "type": "git",
@@ -18,5 +19,15 @@
   "bugs": {
     "url": "https://github.com/daytona/slacks/issues"
   },
-  "homepage": "https://github.com/daytona/slacks"
+  "homepage": "https://github.com/daytona/slacks",
+  "devDependencies": {
+    "node-env-file": "^0.1.4"
+  },
+  "dependencies": {
+    "koa": "^0.13.0",
+    "koa-body": "^0.4.0"
+  },
+  "engines": {
+    "node": ">= 0.11.13"
+  }
 }
