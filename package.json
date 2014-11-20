@@ -1,0 +1,22 @@
+{
+  "name": "slacks",
+  "version": "1.0.0",
+  "description": "Proxies slack integration through web sockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/daytona/slacks"
+  },
+  "keywords": [
+    "slack"
+  ],
+  "author": "Carl Törnqvist <calle.tornqvist@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/daytona/slacks/issues"
+  },
+  "homepage": "https://github.com/daytona/slacks"
+}
