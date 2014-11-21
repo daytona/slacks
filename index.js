@@ -12,17 +12,19 @@ app.use(body());
 app.use(function *(next){
   var body = this.request.body;
   var token = process.env.SLACK_TOKEN;
+  var text = body.text;
 
-  if (token && (body.token !== token)) {
+  if ((token && (body.token !== token)) || (body.user_name === 'slackbot')) {
     yield next;
   }
 
-  console.log(body.user_name + ': ' + body.text);
-});
+  if (body.trigger_word) {
+    text = body.text.replace(body.trigger_word, '').trim();
+  }
 
-// Response
-app.use(function *(){
-  this.body = '';
+  this.body = {
+    text: ('Simon said: "' + text + '"')
+  };
 });
 
 app.listen(process.env.PORT);
