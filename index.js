@@ -1,10 +1,11 @@
 var koa = require('koa');
-var env = require('node-env-file');
 var body = require('koa-body');
 var app = koa();
 
 // Load environment variables
-env(__dirname + '/.env');
+if (process.env.NODE_ENV === 'development') {
+  require('node-env-file')(__dirname + '/.env');
+}
 
 app.use(body());
 
