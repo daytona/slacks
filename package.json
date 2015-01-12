@@ -25,9 +25,10 @@
   },
   "dependencies": {
     "koa": "^0.13.0",
-    "koa-body": "^0.4.0"
+    "koa-body": "^0.4.0",
+    "koa-socket": "^0.3.0"
   },
   "engines": {
-    "node": ">= 0.11.13"
+    "node": "^0.11.13"
   }
 }

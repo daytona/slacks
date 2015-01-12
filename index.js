@@ -1,5 +1,6 @@
 var koa = require('koa');
 var body = require('koa-body');
+var socket = require('koa-socket');
 var app = module.exports = koa();
 
 // Load environment variables
@@ -56,6 +57,16 @@ app.use(function *(next) {
 
   yield next;
 });
+
+socket.start(app);
+
+/**
+* Sockage
+*/
+socket.use(function *(next) {
+  console.log(this.socket);
+
+  yield next;
 });
 
 app.listen(process.env.PORT);
