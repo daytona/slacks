@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+  <title>Socket example</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+
+      font-size: 16px;
+    }
+
+    .ChatForm {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+
+      position: absolute;
+      bottom: 0;
+
+      background-color: green;
+    }
+
+    .ChatForm-field {
+      flex-grow: 1;
+      padding: .5em;
+      border-width: 1px 1px 0 0;
+
+      font-size: 16px;
+    }
+
+    .ChatForm-button {
+      border-width: 1px 0 0 0;
+
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <form action="/" method="post">
+    <div class="ChatForm">
+      <input type="text" name="text" placeholder="Write here…or whatevs" class="ChatForm-field">
+      <button type="submit" class="ChatForm-button">Send</button>
+    </div>
+  </form>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+  </script>
+</body>
+</html>
