@@ -72,4 +72,4 @@ socket.use(function *(next) {
   yield next;
 });
 
-app.listen(process.env.PORT);
+app.server.listen(process.env.PORT);
