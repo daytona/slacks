@@ -34,15 +34,14 @@ app.get('/', function (req, res) {
   });
 });
 
+var io = require('socket.io').listen(app.listen(app.get('port')));
+
 app.use('/slack-chat', function (req, res) {
-  socket.emit('chat', {
+  io.emit('chat', {
     message: 'Someone used the simonsays hashtag :scream_cat:',
     username: 'Daybota'
   });
 });
-
-
-var io = require('socket.io').listen(app.listen(app.get('port')));
 
 io.sockets.on('connection', function (socket) {
 
