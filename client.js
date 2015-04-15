@@ -8,7 +8,9 @@
   var $chatText = $('#chat-message');
   var $chatUsername = $('#chat-username');
 
+
   $chatText.focus();
+
 
   $chatForm.on('submit', function (e) {
     var message = $chatText.val();
@@ -40,9 +42,10 @@
     var date = new Date(),
     niceDate = date.getHours() + ':' + date.getMinutes();
 
-    var message = '<div class="Chat-message" style="display:none">';
-        message += '<p>' + data.message + '</p>';
+    var message = '<div id="' + date + '" class="Chat-message" style="display:none">';
+        message += '<p class="Chat-messageName">' + data.username + '</p>';
         message += '<p class="Chat-messageMeta">' + niceDate + '</p>';
+        message += '<p class="Chat-messageBody">' + data.message + '</p>';
         message += '</div>';
     
     var $message = $(message);

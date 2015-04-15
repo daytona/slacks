@@ -27,7 +27,6 @@ app.use(session({
   env: 'dev'
 }));
 
-
 // Front view
 app.get('/', function (req, res) {
   res.render('index', {
@@ -36,9 +35,11 @@ app.get('/', function (req, res) {
 });
 
 app.use('/slack-chat', function (req, res) {
-  console.log(req.body);
+  socket.emit('chat', {
+    message: 'Someone used the simonsays hashtag :scream_cat:',
+    username: 'Daybota'
+  });
 });
-
 
 
 var io = require('socket.io').listen(app.listen(app.get('port')));
@@ -46,13 +47,12 @@ var io = require('socket.io').listen(app.listen(app.get('port')));
 io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (data) {
-    
 
     request({
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
       body: JSON.stringify({
-        username: data.username || 'Daytona Chat',
+        username: data.username || 'Daybota',
         text: data.message
       })
     }, function (error, response, body) {
@@ -61,13 +61,11 @@ io.sockets.on('connection', function (socket) {
         return;
       }
 
-      console.log(response, body);
-
       socket.emit('chat', {
-        message: data.message
+        message: data.message,
+        username: data.username
       });
     });
 
   });
-
 });
