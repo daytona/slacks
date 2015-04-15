@@ -53,8 +53,7 @@ io.sockets.on('connection', function (socket) {
       method: 'POST',
       body: JSON.stringify({
         username: data.username || 'Daytona Chat',
-        text: data.message,
-        channel: 'slacks'
+        text: data.message
       })
     }, function (error, response, body) {
       if (error) {

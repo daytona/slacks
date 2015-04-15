@@ -1,7 +1,7 @@
 (function (window) {
   'use strict';
 
-  var socket = io('http://localhost:1234');
+  var socket = io.connect();
 
   var $chat = $('#chat');
   var $chatForm = $('#chat-form');
