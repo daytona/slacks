@@ -82,14 +82,14 @@ function saveAndEmitPost(post) {
 
   io.emit('chat', {
     message: post.message,
-    username: post.username || 'Anonymous 1',
+    username: post.username || 'Anonymous',
     date: niceDate
   });
 
   // Saving to database with timestamp
   posts.insert({
     body: post.message,
-    username: post.username || 'Anonymous 2',
+    username: post.username || 'Anonymous',
     date: date.getTime(),
     niceDate: niceDate,
     test: post.test
