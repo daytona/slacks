@@ -1,0 +1,60 @@
+doctype html
+html.no-js(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Daytona Chat
+    link(rel='stylesheet' href='/style.css')
+  body
+
+
+    h1.Logo
+      a(href='/') Daytona Chat
+
+    
+    .Chat
+      form.Chat-form(id='chat-form')
+        textarea.Chat-formMessage(id='chat-message', placeholder='Your message...')
+        input.Chat-formName(id='chat-username' placeholder='Your name...')
+        button.Chat-formSubmit.Button(type='submit') Send
+
+    if posts
+      .Blog(id='blog')
+        each post in posts
+          .Blog-post
+            p.Blog-postName #{post.user}
+            p.Blog-postMeta #{post.niceDate}
+            p.Blog-postBody #{post.body}
+
+    button.Button(id='show-dialog') Info
+
+    dialog.Dialog(id='info-dialog')
+      section.
+        <h1>This is your gateway directly in to the Daytona Slack chat!</h1>
+        <br>
+        <h2>Write anything!</h2>
+        <p>But be nice!</p>
+        <br>
+        <h2>How to write:</h2>
+        <h3>Links:</h3>
+        <p>&lt;http://www.foo.com|foo.com&gt;.</p>
+        <h3>Text styles:</h3>
+        <p><b>*asterisks*</b> for bold text</p>
+        <p><i>_underscores_</i> for italic text</p>
+      
+      menu
+        button.Button(id='close-button') Close
+
+
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js')
+    script(src='/socket.io/socket.io.js')
+    script(src='client.js')
+
+    script.
+      var $dialog = $('#info-dialog');
+      $('#show-dialog').on('click', function () {
+        $dialog[0].showModal();
+      });
+      $('#close-button').on('click', function () {
+        $dialog[0].close();
+      });

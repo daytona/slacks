@@ -1,11 +1,28 @@
 var util = require('util');
+var path = require('path');
 var _ = require('lodash');
 var express = require('express');
 var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var Habitat = require('habitat');
+var mongoose = require('mongoose');
 var request = require('request');
 var app = module.exports = express();
+
+
+
+// Define env
+Habitat.load();
+var env = new Habitat('daytona');
+
+
+
+// Set up database
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk(process.env.MONGOLAB_URI);
+var posts = db.get('posts');
 
 
 
@@ -13,11 +30,19 @@ var app = module.exports = express();
 app.set('port', process.env.PORT || 1234);
 
 
+// Set up views
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+
 // Serve static files from project root
-app.use('/', express.static(__dirname + '/'));
+app.use('/', express.static(__dirname + '/public'));
 
 
 // Set up session
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 app.use(cookieParser());
 app.use(session({
   name: 'daytona-chat',
@@ -27,21 +52,63 @@ app.use(session({
   env: 'dev'
 }));
 
-// Front view
-app.get('/', function (req, res) {
-  res.render('index', {
-    page: 'front'
-  });
-});
 
+
+
+
+// Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
-app.use('/slack-chat', function (req, res) {
-  io.emit('chat', {
-    message: 'Someone used the simonsays hashtag :scream_cat:',
-    username: 'Daybota'
+
+
+// Front view
+app.get('/', function (req, res) {
+
+  posts.find({}, {sort: {date: 1}}, function (err, posts) {
+    if (err) throw err;
+
+    console.log(posts);
+
+    res.render('index', {
+      posts: posts
+    });
+
   });
 });
+
+
+
+app.use('/slack-chat', function (req, res) {
+  res.json({
+    message: 'Hooray! Thanks for the post!'
+  });
+
+  var date = new Date(req.body.timestamp * 1000);
+  var niceDate = date.getHours() + ':' + date.getMinutes();
+
+  io.emit('chat', {
+    message: req.body.text,
+    username: req.body.user_name,
+    date: niceDate
+  });
+
+  console.log({
+    body: req.body.text,
+    user: req.body.user_name,
+    date: req.body.timestamp,
+    niceDate: niceDate
+  })
+
+  posts.insert({
+    body: req.body.text,
+    user: req.body.user_name,
+    date: req.body.timestamp,
+    niceDate: niceDate
+  });
+});
+
+
+
 
 io.sockets.on('connection', function (socket) {
 

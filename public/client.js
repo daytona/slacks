@@ -3,7 +3,7 @@
 
   var socket = io.connect();
 
-  var $chat = $('#chat');
+  var $blog = $('#blog');
   var $chatForm = $('#chat-form');
   var $chatText = $('#chat-message');
   var $chatUsername = $('#chat-username');
@@ -39,17 +39,14 @@
 
 
   socket.on('chat', function (data) {
-    var date = new Date(),
-    niceDate = date.getHours() + ':' + date.getMinutes();
-
-    var message = '<div id="' + date + '" class="Chat-message" style="display:none">';
-        message += '<p class="Chat-messageName">' + data.username + '</p>';
-        message += '<p class="Chat-messageMeta">' + niceDate + '</p>';
-        message += '<p class="Chat-messageBody">' + data.message + '</p>';
+    var message = '<div class="Blog-post" style="display:none">';
+        message += '<p class="Blog-postName">' + data.username + '</p>';
+        message += '<p class="Blog-postMeta">' + data.date + '</p>';
+        message += '<p class="Blog-postBody">' + data.message + '</p>';
         message += '</div>';
     
     var $message = $(message);
-    $chat.append($message);
+    $blog.prepend($message);
     $message.slideDown('fast');
   });
 
