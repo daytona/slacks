@@ -53,6 +53,10 @@ app.use(session({
 
 
 
+console.log(Date.now());
+
+
+
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
@@ -76,10 +80,8 @@ app.get('/', function (req, res) {
   username: String
 */
 function saveAndEmitPost(post) {
-  var date = new Date();
-  var niceDate = date.getHours() + ':' + date.getMinutes();
-
-  console.log('saving post: ', post);
+  var date = new Date(),
+    niceDate = date.getHours() + ':' + date.getMinutes();
 
   io.emit('chat', {
     message: post.message,
@@ -90,13 +92,13 @@ function saveAndEmitPost(post) {
   posts.insert({
     body: post.message,
     username: post.username || 'Daybota',
-    date: date,
+    date: date.getTime(),
     niceDate: niceDate
   });
 }
 
 
-
+// This is where we’ll recieve messages
 app.use('/slack-chat', function (req, res) {
   res.json({
     message: 'Hooray! Thanks for the post!'
@@ -113,8 +115,10 @@ app.use('/slack-chat', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
 
+  // When a message is triggered from the client
   socket.on('message', function (data) {
 
+    // Let’s send the message to Slack!
     request({
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
@@ -125,12 +129,13 @@ io.sockets.on('connection', function (socket) {
     }, function (err, response, body) {
       if (err) throw err;
 
+      // And lets save it to the database and render it to the client
       saveAndEmitPost({
         message: data.message,
         user: data.username
       });
-    });
 
+    });
   });
 });
 

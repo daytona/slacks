@@ -5,8 +5,6 @@ html.no-js(lang='en')
     meta(name='viewport', content='width=device-width, initial-scale=1')
     title Daytona Chat
     link(rel='stylesheet' href='/style.css')
-    link(rel='shortcut icon' href='http://daytona.se/assets/images/favicons/favicon-32x32-6d78d5045465bbe33f41cea4593ce29b.png')
-    link(rel='icon' type='image/ico' href='http://daytona.se/assets/images/favicons/favicon-a8398a0b0a81b6d85c71f3a4f7b66c80.ico')
   body
 
 
@@ -15,12 +13,13 @@ html.no-js(lang='en')
       a(href='/') Daytona Chat
 
 
-    
+
     .Chat
       form.Chat-form(id='chat-form')
         textarea.Chat-formMessage(id='chat-message', placeholder='Your message...')
         input.Chat-formName(id='chat-username' placeholder='Your name...')
-        button.Chat-formSubmit.Button(type='submit') Send
+        //- input.Chat-formUpload(id='chat-attachment' type='file')
+        button.Chat-formSubmit.Button(type='submit' placeholder='asd') Send
 
 
 
@@ -38,10 +37,9 @@ html.no-js(lang='en')
 
     dialog.Dialog(id='info-dialog')
       section.
-        <h1>This is your gateway directly in to the Daytona Slack chat!</h1>
-        <br>
-        <h2>Write anything!</h2>
-        <p>But be nice!</p>
+        <h1>This is your gateway directly in to our Daytona Slack channel!</h1>
+        <p>It allows you, a fellow member of the public, to talk to us.</p>
+        <p>Write anything, but be nice!</p>
         <br>
         <h2>How to write:</h2>
         <h3>Links:</h3>

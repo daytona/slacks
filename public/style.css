@@ -49,7 +49,9 @@ button:hover {
 
 
 
-
+.Logo {
+  margin: 0;
+}
 .Logo a {
   padding: 20px;
 }
@@ -98,7 +100,8 @@ button:hover {
 
 .Chat-message,
 .Chat-formMessage,
-.Chat-formName {
+.Chat-formName,
+.Chat-formUpload {
   padding: 20px;
   width: 100%;
   margin: 0;
@@ -107,6 +110,19 @@ button:hover {
 .Chat-formName {
   margin-top: 20px;
 }
+
+.Chat-formUpload {
+  margin-top: 20px;
+  padding: 0;
+}
+.Chat-formUpload {
+  padding: 20px;
+}
+.Chat-formUpload::-webkit-file-upload-button {
+  
+}
+
+
 
 .Chat-formSubmit {
   font-size: 1.5em;
