@@ -78,7 +78,7 @@ app.get('/', function (req, res) {
 */
 function saveAndEmitPost(post) {
   var date = new Date(),
-    niceDate = date.getHours() + ':' + date.getMinutes();
+    niceDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getMonth();
 
   io.emit('chat', {
     message: post.message,
@@ -90,7 +90,8 @@ function saveAndEmitPost(post) {
     body: post.message,
     username: post.username || 'Anonymous',
     date: date.getTime(),
-    niceDate: niceDate
+    niceDate: niceDate,
+    test: post
   });
 }
 
@@ -112,9 +113,9 @@ app.use('/slack-chat', function (req, res) {
 
 io.sockets.on('connection', function (socket) {
 
+
   // When a message is triggered from the client
   socket.on('message', function (data) {
-
     // Let’s send the message to Slack!
     request({
       uri: 'https://hooks.slack.com/services/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',
@@ -134,6 +135,8 @@ io.sockets.on('connection', function (socket) {
 
     });
   });
+
+
 });
 
 
