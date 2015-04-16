@@ -53,6 +53,7 @@ app.use(session({
 
 
 
+
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
@@ -81,13 +82,13 @@ function saveAndEmitPost(post) {
 
   io.emit('chat', {
     message: post.message,
-    username: post.username,
+    username: post.username || 'Anonymous',
     date: niceDate
   });
 
   posts.insert({
     body: post.message,
-    username: post.username || 'Daybota',
+    username: post.username || 'Anonymous',
     date: date.getTime(),
     niceDate: niceDate
   });
@@ -119,7 +120,7 @@ io.sockets.on('connection', function (socket) {
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
       body: JSON.stringify({
-        username: data.username || 'Daybota',
+        username: data.username || 'Anonymous',
         text: data.message
       })
     }, function (err, response, body) {
