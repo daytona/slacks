@@ -15,14 +15,16 @@
   $chatForm.on('submit', function (e) {
     var message = $chatText.val();
 
-    if (message.length) {
+    if (message.length || !message.startsWith('#simonsays')) {
       socket.emit('message', {
         message: $chatText.val(),
         username: $chatUsername.val()
       });
       $chatText.val('');
+    } else if (message.startsWith('#simonsays')) {
+      alert("I wouldn't try using #simonsays here! Who knows what could happen??");
     } else {
-      alert('You must write a message first!!');
+      alert("You must write a message first!!");
     }
 
     e.preventDefault();
@@ -43,11 +45,25 @@
         message += '<p class="Blog-postName">' + data.username + '</p>';
         message += '<p class="Blog-postMeta">' + data.date + '</p>';
         message += '<p class="Blog-postBody">' + data.message + '</p>';
-        message += '</div>';
-    
+       message += '</div>';
+
     var $message = $(message);
     $blog.prepend($message);
     $message.slideDown('fast');
+  });
+
+
+
+
+
+
+  // Dialog
+  var $dialog = $('#info-dialog');
+  $('#show-dialog').on('click', function () {
+    $dialog[0].showModal();
+  });
+  $('#close-button').on('click', function () {
+    $dialog[0].close();
   });
 
 }(this));

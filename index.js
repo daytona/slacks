@@ -42,7 +42,6 @@ app.use('/', express.static(path.normalize(__dirname + '/public')));
 // Set up session
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(cookieParser());
 app.use(session({
   name: 'daytona-chat',
@@ -54,26 +53,47 @@ app.use(session({
 
 
 
-
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
 
 
-
 // Front view
 app.get('/', function (req, res) {
-
-  posts.find({}, {sort: {date: 1}}, function (err, posts) {
+  // Get posts from database.
+  posts.find({}, {sort: {date: -1}}, function (err, posts) {
     if (err) throw err;
-
     res.render('index', {
       posts: posts
     });
   });
-
 });
 
+
+
+/*
+  message: String,
+  username: String
+*/
+function saveAndEmitPost(post) {
+  var date = new Date();
+  var niceDate = date.getHours() + ':' + date.getMinutes();
+
+  console.log('saving post: ', post);
+
+  io.emit('chat', {
+    message: post.message,
+    username: post.username,
+    date: niceDate
+  });
+
+  posts.insert({
+    body: post.message,
+    username: post.username || 'Daybota',
+    date: date,
+    niceDate: niceDate
+  });
+}
 
 
 
@@ -82,22 +102,9 @@ app.use('/slack-chat', function (req, res) {
     message: 'Hooray! Thanks for the post!'
   });
 
-  var date = new Date();
-  var niceDate = date.getHours() + ':' + date.getMinutes();
-
-  // Emit to client
-  io.emit('chat', {
+  saveAndEmitPost({
     message: req.body.text,
-    username: req.body.user_name,
-    date: niceDate
-  });
-
-  // Save to database
-  posts.insert({
-    body: req.body.text,
-    user: req.body.user_name,
-    date: date,
-    niceDate: niceDate
+    username: req.body.user_name
   });
 });
 
@@ -107,9 +114,6 @@ app.use('/slack-chat', function (req, res) {
 io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (data) {
-
-    var date = new Date();
-    var niceDate = date.getHours() + ':' + date.getMinutes();
 
     request({
       uri: 'https://hooks.slack.com/services/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',
@@ -121,22 +125,12 @@ io.sockets.on('connection', function (socket) {
     }, function (err, response, body) {
       if (err) throw err;
 
-      // Emit to client
-      socket.emit('chat', {
+      saveAndEmitPost({
         message: data.message,
-        username: data.username,
-        date: niceDate
+        user: data.username
       });
-
-      // Save to database
-      posts.insert({
-        body: data.message,
-        user: data.username || 'Daybota',
-        date: date,
-        niceDate: niceDate
-      });
-
     });
+
   });
 });
 
