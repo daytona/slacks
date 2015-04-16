@@ -53,8 +53,6 @@
     var $message = $(message);
     $blog.prepend($message);
     $message.slideDown('fast');
-
-    console.log(data);
   });
 
 

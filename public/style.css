@@ -1,7 +1,7 @@
 * {
   box-sizing: border-box;
   font-family: 'The Sans', monospace;
-  color: #333;
+  color: #111;
 }
 
 body {
@@ -19,7 +19,7 @@ button,
 textarea {
   -webkit-appearance: none;
   background: transparent;
-  border: 1px solid #333;
+  border: 1px solid #111;
   font-size: 1rem;
 }
 
@@ -37,7 +37,7 @@ textarea:focus {
 }
 
 button:hover {
-  background: #333;
+  background: #111;
   color: #fff;
   cursor: pointer;
 }
@@ -95,7 +95,6 @@ button:hover {
 .Chat-formMessage {
   min-height: 200px;
   resize: vertical;
-  font-size: 1.5rem;
 }
 
 .Chat-message,
@@ -125,7 +124,7 @@ button:hover {
 
 
 .Chat-formSubmit {
-  font-size: 1.5em;
+
 }
 
 
@@ -170,11 +169,11 @@ button:hover {
 
 
 .Dialog {
-  width: 90%;
+  width: 80%;
   max-width: 600px;
   margin: 0 auto;
 
-  padding: 40px;
+  padding: 0 20px 20px;
   box-sizing: content-box;
 }
 #show-dialog {
@@ -185,4 +184,9 @@ button:hover {
 }
 #show-dialog:hover {
   opacity: 1;
+}
+@media (min-width:800px) {
+  .Dialog {
+    padding: 40px;
+  }
 }

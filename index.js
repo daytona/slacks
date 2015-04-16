@@ -78,17 +78,18 @@ app.get('/', function (req, res) {
 */
 function saveAndEmitPost(post) {
   var date = new Date(),
-    niceDate = date.getHours() + ':' + date.getMinutes() + ' - ' + date.getMonth();
+    niceDate = date.getHours() + ':' + date.getMinutes();
 
   io.emit('chat', {
     message: post.message,
-    username: post.username || 'Anonymous',
+    username: post.username || 'Anonymous 1',
     date: niceDate
   });
 
+  // Saving to database with timestamp
   posts.insert({
     body: post.message,
-    username: post.username || 'Anonymous',
+    username: post.username || 'Anonymous 2',
     date: date.getTime(),
     niceDate: niceDate,
     test: post
@@ -103,7 +104,7 @@ app.use('/slack-chat', function (req, res) {
   });
 
   saveAndEmitPost({
-    message: req.body.text,
+    message: req.body.text.replace('#simonsays', ''),
     username: req.body.user_name
   });
 });
@@ -121,7 +122,7 @@ io.sockets.on('connection', function (socket) {
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
       body: JSON.stringify({
-        username: data.username || 'Anonymous',
+        username: data.username || 'Anonymous 3',
         text: data.message
       })
     }, function (err, response, body) {
