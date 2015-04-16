@@ -1,6 +1,7 @@
 (function (window) {
   'use strict';
 
+
   var socket = io.connect();
 
   var $blog = $('#blog');
@@ -32,12 +33,14 @@
   });
 
 
+
   // CMD + Enter = Submit
   $(document.body).on('keydown', function (e) {
     if (e.keyCode == 13 && e.metaKey) {
       $chatForm.submit();
     }
   });
+
 
 
   socket.on('chat', function (data) {
@@ -51,9 +54,6 @@
     $blog.prepend($message);
     $message.slideDown('fast');
   });
-
-
-
 
 
 

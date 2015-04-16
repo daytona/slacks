@@ -53,10 +53,6 @@ app.use(session({
 
 
 
-console.log(Date.now());
-
-
-
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
