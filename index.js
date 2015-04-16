@@ -92,7 +92,7 @@ function saveAndEmitPost(post) {
     username: post.username || 'Anonymous 2',
     date: date.getTime(),
     niceDate: niceDate,
-    test: post
+    test: post.test
   });
 }
 
@@ -105,7 +105,8 @@ app.use('/slack-chat', function (req, res) {
 
   saveAndEmitPost({
     message: req.body.text.replace('#simonsays', ''),
-    username: req.body.user_name
+    username: req.body.user_name,
+    test: req.body
   });
 });
 
