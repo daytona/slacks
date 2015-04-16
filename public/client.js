@@ -1,7 +1,6 @@
 (function (window) {
   'use strict';
 
-
   var socket = io.connect();
 
   var $blog = $('#blog');
@@ -10,11 +9,15 @@
   var $chatUsername = $('#chat-username');
 
 
+
   $chatText.focus();
+
 
 
   $chatForm.on('submit', function (e) {
     var message = $chatText.val();
+
+    // TODO: Curse check!
 
     if (message.length || !message.startsWith('#simonsays')) {
       socket.emit('message', {
@@ -43,6 +46,7 @@
 
 
 
+  // Signal recieved via web from the server!
   socket.on('chat', function (data) {
     var message = '<div class="Blog-post" style="display:none">';
         message += '<p class="Blog-postName">' + data.username + '</p>';
