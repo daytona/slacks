@@ -1,0 +1,172 @@
+* {
+  box-sizing: border-box;
+  font-family: 'The Sans', monospace;
+  color: #333;
+}
+
+body {
+  font-size: 100%;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  display: block;
+}
+
+input,
+button,
+textarea {
+  -webkit-appearance: none;
+  background: transparent;
+  border: 1px solid #333;
+  font-size: 1rem;
+}
+
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+  border-color: #000;
+}
+
+.Button {
+  padding: 20px 40px;
+  margin-top: 20px;
+  float: right;
+}
+
+button:hover {
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+.Logo a {
+  padding: 20px;
+}
+
+
+
+
+
+
+.Chat {
+  margin: 0 auto;
+  width: 90%;
+  max-width: 500px;
+}
+
+.Chat-message {
+  margin-bottom: 40px;
+  font-size: 1.5em;
+}
+
+.Chat-messageName {
+  font-weight: bold;
+  margin: 0;
+}
+
+.Chat-messageMeta {
+  color: #999;
+  font-size: .5em;
+  margin: 0 0 1em;
+}
+
+.Chat-form {
+  overflow: auto;
+}
+
+.Chat-form,
+.Chat-formMessage {
+  width: 100%;
+}
+
+.Chat-formMessage {
+  min-height: 200px;
+  resize: vertical;
+  font-size: 1.5rem;
+}
+
+.Chat-message,
+.Chat-formMessage,
+.Chat-formName {
+  padding: 20px;
+  width: 100%;
+  margin: 0;
+}
+
+.Chat-formName {
+  margin-top: 20px;
+}
+
+.Chat-formSubmit {
+  font-size: 1.5em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Blog {
+  margin: 10% auto 0;
+  width: 90%;
+  max-width: 500px;
+}
+
+.Blog-post {
+  margin-bottom: 80px;
+  font-size: 1.5em;
+}
+
+.Blog-postName {
+  font-weight: bold;
+  margin: 0;
+}
+
+.Blog-postMeta {
+  color: #999;
+  font-size: .5em;
+  margin: 0 0 1em;
+}
+
+
+
+
+
+
+
+
+.Dialog {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  padding: 40px;
+  box-sizing: content-box;
+}
+#show-dialog {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  opacity: .2;
+}
+#show-dialog:hover {
+  opacity: 1;
+}
