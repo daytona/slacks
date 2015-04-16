@@ -55,9 +55,9 @@ app.use(session({
 
 
 
-
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
+
 
 
 
@@ -76,24 +76,27 @@ app.get('/', function (req, res) {
 
 
 
+
 app.use('/slack-chat', function (req, res) {
   res.json({
     message: 'Hooray! Thanks for the post!'
   });
 
-  var date = new Date(req.body.timestamp * 1000);
+  var date = new Date();
   var niceDate = date.getHours() + ':' + date.getMinutes();
 
+  // Emit to client
   io.emit('chat', {
     message: req.body.text,
     username: req.body.user_name,
     date: niceDate
   });
 
+  // Save to database
   posts.insert({
     body: req.body.text,
     user: req.body.user_name,
-    date: req.body.timestamp,
+    date: date,
     niceDate: niceDate
   });
 });
@@ -105,6 +108,11 @@ io.sockets.on('connection', function (socket) {
 
   socket.on('message', function (data) {
 
+    var date = new Date();
+    var niceDate = date.getHours() + ':' + date.getMinutes();
+
+    
+
     request({
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
@@ -112,17 +120,26 @@ io.sockets.on('connection', function (socket) {
         username: data.username || 'Daybota',
         text: data.message
       })
-    }, function (error, response, body) {
-      if (error) {
-        console.log('Error', error);
-        return;
-      }
+    }, function (err, response, body) {
+      if (err) throw err;
 
+      // Emit to client
       socket.emit('chat', {
         message: data.message,
-        username: data.username
+        username: data.username,
+        date.niceDate
       });
-    });
 
+      // Save to database
+      posts.insert({
+        body: data.message,
+        user: data.username || 'Daybota',
+        date: date,
+        niceDate: niceDate
+      });
+
+    });
   });
 });
+
+
