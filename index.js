@@ -111,8 +111,6 @@ io.sockets.on('connection', function (socket) {
     var date = new Date();
     var niceDate = date.getHours() + ':' + date.getMinutes();
 
-    
-
     request({
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
@@ -127,7 +125,7 @@ io.sockets.on('connection', function (socket) {
       socket.emit('chat', {
         message: data.message,
         username: data.username,
-        date.niceDate
+        date: niceDate
       });
 
       // Save to database
