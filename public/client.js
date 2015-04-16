@@ -21,7 +21,7 @@
 
     if (message.length || !message.startsWith('#simonsays')) {
 
-      console.log('posting: ' {
+      console.log('posting: ', {
         message: $chatText.val(),
         username: $chatUsername.val()
       });
