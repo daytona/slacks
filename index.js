@@ -67,13 +67,11 @@ app.get('/', function (req, res) {
   posts.find({}, {sort: {date: 1}}, function (err, posts) {
     if (err) throw err;
 
-    console.log(posts);
-
     res.render('index', {
       posts: posts
     });
-
   });
+
 });
 
 
@@ -91,13 +89,6 @@ app.use('/slack-chat', function (req, res) {
     username: req.body.user_name,
     date: niceDate
   });
-
-  console.log({
-    body: req.body.text,
-    user: req.body.user_name,
-    date: req.body.timestamp,
-    niceDate: niceDate
-  })
 
   posts.insert({
     body: req.body.text,
