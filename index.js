@@ -36,7 +36,7 @@ app.set('view engine', 'jade');
 
 
 // Serve static files from project root
-app.use('/', express.static(__dirname + '/public'));
+app.use('/', express.static(path.normalize(__dirname + '/public')));
 
 
 // Set up session
