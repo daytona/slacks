@@ -17,15 +17,7 @@
   $chatForm.on('submit', function (e) {
     var message = $chatText.val();
 
-    // TODO: Curse check!
-
     if (message.length || !message.startsWith('#simonsays')) {
-
-      console.log('posting: ', {
-        message: $chatText.val(),
-        username: $chatUsername.val()
-      });
-
       socket.emit('message', {
         message: $chatText.val(),
         username: $chatUsername.val()
@@ -59,8 +51,6 @@
         message += '<p class="Blog-postMeta">' + data.date + '</p>';
         message += '<p class="Blog-postBody">' + data.message + '</p>';
        message += '</div>';
-
-    console.log('emitted to client: ', data);
 
     var $message = $(message);
     $blog.prepend($message);

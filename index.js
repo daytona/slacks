@@ -1,28 +1,29 @@
-var util = require('util');
-var path = require('path');
 var _ = require('lodash');
-var express = require('express');
-var session = require('express-session');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var express = require('express');
 var Habitat = require('habitat');
-var mongoose = require('mongoose');
+var monk = require('monk');
+var path = require('path');
 var request = require('request');
+var session = require('express-session');
+var util = require('util');
+
+
+
+// Set up the application
 var app = module.exports = express();
 
 
 
-// Define env
+// Define environment
 Habitat.load();
 var env = new Habitat('daytona');
 
 
 
 // Set up database
-var mongo = require('mongodb');
-var monk = require('monk');
 var db = monk(process.env.MONGOLAB_URI);
-var posts = db.get('posts');
 
 
 
@@ -30,13 +31,16 @@ var posts = db.get('posts');
 app.set('port', process.env.PORT || 1234);
 
 
+
 // Set up views
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 
+
 // Serve static files from project root
 app.use('/', express.static(path.normalize(__dirname + '/public')));
+
 
 
 // Set up session
@@ -53,15 +57,15 @@ app.use(session({
 
 
 
-
 // Set up web sockets
 var io = require('socket.io').listen(app.listen(app.get('port')));
 
 
 
-// Front view
+// Rendering front view
 app.get('/', function (req, res) {
   // Get posts from database.
+  var posts = db.get('posts');
   posts.find({}, {sort: {date: -1}}, function (err, posts) {
     if (err) throw err;
     res.render('index', {
@@ -72,10 +76,6 @@ app.get('/', function (req, res) {
 
 
 
-/*
-  message: String,
-  username: String
-*/
 function saveAndEmitPost(post) {
   var date = new Date(),
     niceDate = date.getHours() + ':' + date.getMinutes();
@@ -91,13 +91,13 @@ function saveAndEmitPost(post) {
     body: post.message,
     username: post.username || 'Anonymous',
     date: date.getTime(),
-    niceDate: niceDate,
-    test: post.test
+    niceDate: niceDate
   });
 }
 
 
 // This is where we’ll recieve messages
+// https://api.slack.com/outgoing-webhooks
 app.use('/slack-chat', function (req, res) {
   res.json({
     message: 'Hooray! Thanks for the post!'
@@ -105,8 +105,7 @@ app.use('/slack-chat', function (req, res) {
 
   saveAndEmitPost({
     message: req.body.text.replace('#simonsays', ''),
-    username: req.body.user_name,
-    test: req.body
+    username: req.body.user_name
   });
 });
 
@@ -119,6 +118,7 @@ io.sockets.on('connection', function (socket) {
   // When a message is triggered from the client
   socket.on('message', function (data) {
     // Let’s send the message to Slack!
+    // https://api.slack.com/incoming-webhooks
     request({
       uri: 'https://hooks.slack.com/services/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',
       method: 'POST',
